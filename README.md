@@ -1,2 +1,2 @@
-# aula-progama-o-algoritimo
+# aula-programa-o-algoritimo
 aula de algoritimo
