@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar CEP</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      background: #f2f2f2;
+      padding: 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Buscar endereço pelo CEP</h2>
+
+  <input type="text" id="cep" placeholder="Digite o CEP">
+  <button onclick="buscarCEP()">Buscar</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    async function buscarCEP() {
+      const cep = document.getElementById('cep').value.replace(/\D/g, '')
+
+      if (cep.length !== 8) {
+        alert('CEP inválido')
+        return
+      }
+
+      const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+      const dados = await resposta.json()
+
+      if (dados.erro) {
+        document.getElementById('resultado').innerHTML =
+          'CEP não encontrado'
+        return
+      }
+
+      document.getElementById('resultado').innerHTML = `
+        <b>Rua:</b> ${dados.logradouro}<br>
+        <b>Bairro:</b> ${dados.bairro}<br>
+        <b>Cidade:</b> ${dados.localidade}<br>
+        <b>Estado:</b> ${dados.uf}
+      `
+    }
+  </script>
+
+</body>
+</html>
